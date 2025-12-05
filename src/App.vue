@@ -1,47 +1,30 @@
 <script setup>
-import HelloWorld from './components/HelloWorld.vue'
-import TheWelcome from './components/TheWelcome.vue'
+import { onMounted } from "vue";
+import { productsStore } from "@/stores/products";
+import { shoppingCartStore } from "@/stores/shoppingcart";
+import AppHeader from "@/components/AppHeader.vue";
+import AppFooter from "@/components/AppFooter.vue";
+import ProductList from "@/components/shop/ProductList.vue";
+import ShoppingCart from "@/components/cart/ShoppingCart.vue";
+
+const API_URL = "https://6931dc8711a8738467d0cd8f.mockapi.io/products";
+
+onMounted(async () => {
+  await productsStore.init(API_URL);
+});
+
+const handleAddToCart = (product) => {
+  shoppingCartStore.addToCart(product);
+};
 </script>
 
 <template>
-  <header>
-    <img alt="Vue logo" class="logo" src="./assets/logo.svg" width="125" height="125" />
-
-    <div class="wrapper">
-      <HelloWorld msg="You did it!" />
-    </div>
-  </header>
-
-  <main>
-    <TheWelcome />
-  </main>
+  <div class="min-h-screen flex flex-col">
+    <AppHeader />
+    <main class="flex-1 container mx-auto py-8 px-4 flex flex-wrap">
+      <ProductList @add-to-cart="handleAddToCart" />
+      <ShoppingCart />
+    </main>
+    <AppFooter />
+  </div>
 </template>
-
-<style scoped>
-header {
-  line-height: 1.5;
-}
-
-.logo {
-  display: block;
-  margin: 0 auto 2rem;
-}
-
-@media (min-width: 1024px) {
-  header {
-    display: flex;
-    place-items: center;
-    padding-right: calc(var(--section-gap) / 2);
-  }
-
-  .logo {
-    margin: 0 2rem 0 0;
-  }
-
-  header .wrapper {
-    display: flex;
-    place-items: flex-start;
-    flex-wrap: wrap;
-  }
-}
-</style>
