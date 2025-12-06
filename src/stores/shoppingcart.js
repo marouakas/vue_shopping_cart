@@ -1,17 +1,17 @@
-import { reactive, computed } from "vue"; 
-// reactive = données qui se mettent à jour
+import { reactive, computed } from "vue";
+// reactive = données qui changent en direct
 // computed = valeur calculée automatiquement
 
-const cartItems = reactive([]); 
-// le panier (tableau réactif)
+const cartItems = reactive([]);
+// tableau du panier (liste des produits)
 
 const addToCart = (product) => {
   const existingItem = cartItems.find(item => item.id === product.id);
-  // chercher si le produit existe déjà dans le panier
+  // on cherche si le produit est déjà dans le panier
 
   if (existingItem) {
     existingItem.quantity += 1;
-    // si déjà là → +1 quantité
+    // si oui → on augmente la quantité
   } else {
     cartItems.push({
       id: product.id,
@@ -20,39 +20,40 @@ const addToCart = (product) => {
       image: product.image,
       quantity: 1
     });
-    // sinon → on ajoute un nouveau produit au panier
+    // sinon → on ajoute le produit avec quantité = 1
   }
 };
 
 const removeFromCart = (productId) => {
   const index = cartItems.findIndex(item => item.id === productId);
-  // trouver l’index du produit dans le panier
+  // on cherche l’endroit du produit dans le tableau
 
   if (index !== -1) {
     cartItems.splice(index, 1);
-    // on supprime le produit du panier
+    // si trouvé → on supprime du panier
   }
 };
 
 const updateQuantity = (productId, quantity) => {
   const item = cartItems.find(item => item.id === productId);
-  // trouver le produit à modifier
+  // on cherche le produit
 
   if (item && quantity >= 1) {
     item.quantity = quantity;
-    // changer la quantité
+    // on change la quantité
   }
 };
 
 const totalHT = computed(() => {
-  // calcul automatique du total
+  // calcule le total automatiquement
   return cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+  // total = prix × quantité pour chaque produit
 });
 
 export const shoppingCartStore = reactive({
-  cartItems,        // le panier
-  addToCart,        // ajouter
-  removeFromCart,   // supprimer
-  updateQuantity,   // changer quantité
-  totalHT           // total calculé
+  cartItems,        // liste des produits
+  addToCart,        // ajouter au panier
+  removeFromCart,   // enlever du panier
+  updateQuantity,   // modifier la quantité
+  totalHT           // total du panier
 });
