@@ -2,10 +2,13 @@
 import { shoppingCartStore } from "@/stores/shoppingcart";
 import CartItem from "./CartItem.vue";
 
+
+//Modifier la quantité d'un produit
 const handleUpdateQuantity = (productId, quantity) => {
   shoppingCartStore.updateQuantity(productId, quantity);
 };
 
+//Supprimer un produit du panier
 const handleRemove = (productId) => {
   shoppingCartStore.removeFromCart(productId);
 };
@@ -16,6 +19,7 @@ const handleRemove = (productId) => {
     <h2 class="text-xl font-bold mb-4">Votre Panier</h2>
     <div class="cart bg-white rounded-lg shadow animate__animated">
       <ul class="divide-y divide-gray-200 space-y-4 p-6">
+        <!-- Affiche un CartItem pour chaque produit -->
         <CartItem
           v-for="item in shoppingCartStore.cartItems"
           :key="item.id"
