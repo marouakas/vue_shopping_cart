@@ -1,14 +1,14 @@
 <script setup>
-const props = defineProps({
-  item: { type: Object, required: true }
-});
+const props = defineProps({ item: { type: Object, required: true }}); //Reçoit les données du parent (ShoppingCart.vue)
 
-const emits = defineEmits(["update-quantity", "remove"]);
+const emits = defineEmits(["update-quantity", "remove"]);  //Définit liste de tous les événements  envoyer au parent
 
-const handleQuantityChange = (event) => {
-  const newQty = parseInt(event.target.value);
+
+// Fonction : Changer la quantité
+const handleQuantityChange = (event) => { const newQty = parseInt(event.target.value); // Convertit la valeur en nombre? input
   if (newQty >= 1) {
-    emits("update-quantity", props.item.id, newQty);
+    emits("update-quantity", props.item.id, newQty);// Envoie l'événement au parent
+    
   }
 };
 
